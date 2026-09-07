@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Концепт 1: Cupertino Neo-Glass | Instructor TMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F0F3F8;
+      --card-bg: rgba(255, 255, 255, 0.88);
+      --card-solid: #FFFFFF;
+      --border: rgba(0, 0, 0, 0.06);
+      --border-focus: #007AFF;
+      --text-main: #0C1322;
+      --text-muted: #758295;
+      --blue: #007AFF;
+      --blue-light: #EBF3FF;
+      --green: #34C759;
+      --green-light: #EBF9F0;
+      --red: #FF3B30;
+      --red-light: #FFF0EF;
+      --amber: #FF9500;
+      --amber-light: #FFF7EB;
+      --dock-bg: rgba(255, 255, 255, 0.92);
+      --shadow-sm: 0 2px 8px rgba(12, 19, 34, 0.04);
+      --shadow-card: 0 8px 24px rgba(12, 19, 34, 0.05), 0 1px 3px rgba(12, 19, 34, 0.02);
+      --shadow-float: 0 12px 32px rgba(0, 122, 255, 0.35);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --font-main: 'Golos Text', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: var(--font-main);
+      background: #E5E9F0;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Concept switcher banner */
+    .concept-banner {
+      width: 100%;
+      max-width: 430px;
+      background: #1E293B;
+      color: #FFF;
+      padding: 10px 16px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+    .concept-banner a { color: #38BDF8; text-decoration: none; font-weight: 700; }
+    .concept-title-pill { background: rgba(56, 189, 248, 0.2); padding: 3px 8px; border-radius: 6px; font-weight: 700; color: #38BDF8; }
+
+    /* Phone Shell */
+    .phone-frame {
+      width: 100%;
+      max-width: 420px;
+      min-height: 844px;
+      background: var(--bg);
+      border-radius: 44px;
+      box-shadow: 0 25px 70px rgba(15, 23, 42, 0.22), 0 0 0 10px #1E293B;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    /* Dynamic Island */
+    .notch {
+      width: 120px;
+      height: 30px;
+      background: #000;
+      border-radius: 20px;
+      margin: 10px auto 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .app-screen {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 18px 90px;
+      display: none;
+    }
+    .app-screen.active { display: block; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Screen 1: Home */
+    .header-greeting { margin-top: 10px; }
+    .header-greeting h1 { font-size: 26px; font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; }
+    .header-greeting p { font-size: 14px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+    /* Stat Cards */
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .stat-box {
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-box.blue { background: var(--blue-light); color: var(--blue); }
+    .stat-box.red { background: var(--red-light); color: var(--red); }
+    .stat-box strong { font-size: 24px; font-weight: 800; line-height: 1; }
+    .stat-box span { font-size: 11px; font-weight: 600; opacity: 0.9; }
+
+    /* Calendar Strip */
+    .week-strip {
+      background: var(--card-solid);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 18px;
+    }
+    .week-nav {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .day-pill {
+      background: transparent;
+      border: none;
+      border-radius: 12px;
+      padding: 8px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .day-pill .name { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+    .day-pill .num { font-size: 14px; font-weight: 750; color: var(--text-main); }
+    .day-pill.active { background: var(--blue); box-shadow: 0 4px 10px rgba(0,122,255,0.35); }
+    .day-pill.active .name, .day-pill.active .num { color: #FFF; }
+
+    /* Section Title */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .section-head h2 { font-size: 18px; font-weight: 750; }
+    .section-head a { color: var(--blue); font-size: 14px; font-weight: 650; text-decoration: none; }
+
+    /* Grouped Lessons Card */
+    .card-list {
+      background: var(--card-solid);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .lesson-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .lesson-item:last-child { border-bottom: none; }
+    .lesson-item:active { background: #F8FAFD; }
+
+    .avatar-circle {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      color: #FFF;
+      display: grid;
+      place-items: center;
+      font-weight: 750;
+      font-size: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,122,255,0.25);
+    }
+    .avatar-circle.av2 { background: linear-gradient(135deg, #FF2D55, #FF9500); }
+    .avatar-circle.av3 { background: linear-gradient(135deg, #34C759, #007AFF); }
+    .avatar-circle.av4 { background: linear-gradient(135deg, #AF52DE, #5856D6); }
+
+    .item-body { flex: 1; min-width: 0; }
+    .item-title { font-size: 15px; font-weight: 700; color: var(--text-main); }
+    .item-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    .btn-action-pill {
+      border: none;
+      background: var(--blue);
+      color: #FFF;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      box-shadow: 0 2px 8px rgba(0,122,255,0.3);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .btn-action-pill:active { transform: scale(0.95); }
+    .arrow-icon { color: #C7C7CC; margin-left: 6px; font-size: 18px; font-weight: bold; }
+
+    /* Screen 2: Student Profile */
+    .profile-hero {
+      background: var(--card-solid);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 14px;
+    }
+    .profile-hero .av-large { width: 62px; height: 62px; font-size: 22px; }
+    .profile-hero h2 { font-size: 20px; font-weight: 800; }
+    .profile-hero p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    .segmented-tabs {
+      display: flex;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      margin-bottom: 16px;
+    }
+    .seg-tab {
+      border: none;
+      background: transparent;
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: 650;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2.5px solid transparent;
+    }
+    .seg-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+    .score-card {
+      background: var(--card-solid);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 16px;
+    }
+    .score-head-title { font-size: 17px; font-weight: 750; margin-bottom: 16px; }
+
+    .score-ring-row { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+    .circle-ring {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      border: 7px solid #EBF3FF;
+      border-top-color: #34C759;
+      border-right-color: #34C759;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(52, 199, 89, 0.2);
+    }
+    .circle-ring strong { font-size: 24px; font-weight: 850; line-height: 1; }
+    .circle-ring span { font-size: 10px; color: var(--text-muted); font-weight: 600; }
+
+    .score-delta-col { display: flex; flex-direction: column; gap: 4px; }
+    .delta-val { font-size: 22px; font-weight: 850; color: var(--green); display: flex; align-items: center; gap: 4px; }
+    .delta-sub { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+    .score-pills-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .score-pill {
+      border-radius: var(--radius-sm);
+      padding: 12px 6px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .score-pill.ground { background: var(--amber-light); color: var(--amber); }
+    .score-pill.city { background: var(--red-light); color: var(--red); }
+    .score-pill.overall { background: var(--green-light); color: var(--green); }
+    .score-pill strong { font-size: 19px; font-weight: 800; }
+    .score-pill span { font-size: 11px; font-weight: 600; opacity: 0.9; }
+
+    /* Screen 3: Report / Evaluation */
+    .eval-box {
+      background: var(--card-solid);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 14px;
+    }
+    .eval-box h3 { font-size: 16px; font-weight: 750; margin-bottom: 12px; }
+    .skill-row { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .skill-row:last-child { border-bottom: none; }
+    .skill-title { font-size: 14px; font-weight: 650; margin-bottom: 8px; }
+    .pills-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .rate-btn {
+      height: 38px;
+      border: none;
+      border-radius: 10px;
+      background: #F1F5F9;
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .rate-btn.selected { background: var(--blue); color: #FFF; box-shadow: 0 2px 8px rgba(0,122,255,0.35); }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+    }
+    .switch-info { display: flex; align-items: center; gap: 12px; }
+    .warn-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--red-light); color: var(--red); display: grid; place-items: center; font-size: 18px; }
+
+    /* Bottom iOS Dock */
+    .dock-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 74px;
+      background: var(--dock-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 10px 10px;
+      z-index: 100;
+    }
+    .dock-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: #8E8E93;
+      font-size: 10px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+    .dock-btn svg { width: 22px; height: 22px; stroke-width: 2; }
+    .dock-btn.active { color: var(--blue); }
+
+    .dock-btn.center-action {
+      position: relative;
+    }
+    .center-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007AFF, #0056D6);
+      color: #FFF;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      box-shadow: var(--shadow-float);
+      transform: translateY(-14px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Switcher bar to jump between all 5 concepts -->
+  <div class="concept-banner">
+    <div>
+      <span class="concept-title-pill">КОНЦЕПТ 1</span>
+      <strong>Cupertino Neo-Glass</strong> (iOS 18 Luxe)
+    </div>
+    <div>
+      <a href="index.html">Все 5 концептов ➔</a>
+    </div>
+  </div>
+
+  <div class="phone-frame">
+    <div class="notch">9:41</div>
+    <div class="status-bar">
+      <span>Автошкола</span>
+      <span>•••</span>
+    </div>
+
+    <!-- SCREEN 1: HOME -->
+    <div id="screen-home" class="app-screen active">
+      <div class="header-greeting">
+        <h1>Доброе утро,<br>Алексей!</h1>
+        <p>Сегодня 5 занятий</p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-box blue">
+          <strong>5</strong>
+          <span>Занятий сегодня</span>
+        </div>
+        <div class="stat-box red" onclick="showScreen('screen-flags')" style="cursor:pointer;">
+          <strong>2</strong>
+          <span>Флаги внимания</span>
+        </div>
+        <div class="stat-box blue" onclick="showScreen('screen-profile')" style="cursor:pointer;">
+          <strong>12</strong>
+          <span>Активных учеников</span>
+        </div>
+      </div>
+
+      <div class="week-strip">
+        <div class="week-nav">
+          <span>Ноябрь 2026</span>
+          <span style="color:var(--blue); cursor:pointer;">Расписание ⌵</span>
+        </div>
+        <div class="days-grid">
+          <button class="day-pill"><span class="name">пн</span><span class="num">10</span></button>
+          <button class="day-pill"><span class="name">вт</span><span class="num">11</span></button>
+          <button class="day-pill active"><span class="name">ср</span><span class="num">12</span></button>
+          <button class="day-pill"><span class="name">чт</span><span class="num">13</span></button>
+          <button class="day-pill"><span class="name">пт</span><span class="num">14</span></button>
+          <button class="day-pill"><span class="name">сб</span><span class="num">15</span></button>
+          <button class="day-pill"><span class="name">вс</span><span class="num">16</span></button>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <h2>Ближайшие занятия</h2>
+        <a href="#" onclick="showScreen('screen-profile'); return false;">Все</a>
+      </div>
+
+      <div class="card-list">
+        <div class="lesson-item" onclick="showScreen('screen-profile')">
+          <div class="avatar-circle">ИП</div>
+          <div class="item-body">
+            <div class="item-title">Иван Петров</div>
+            <div class="item-sub">10:00 – 11:30 · Площадка</div>
+          </div>
+          <button class="btn-action-pill" onclick="event.stopPropagation(); showScreen('screen-report');">Начать</button>
+          <span class="arrow-icon">›</span>
+        </div>
+
+        <div class="lesson-item" onclick="showScreen('screen-profile')">
+          <div class="avatar-circle av2">МС</div>
+          <div class="item-body">
+            <div class="item-title">Мария Сидорова</div>
+            <div class="item-sub">12:00 – 13:30 · Город</div>
+          </div>
+          <button class="btn-action-pill" onclick="event.stopPropagation(); showScreen('screen-report');">Начать</button>
+          <span class="arrow-icon">›</span>
+        </div>
+
+        <div class="lesson-item" onclick="showScreen('screen-profile')">
+          <div class="avatar-circle av3">АК</div>
+          <div class="item-body">
+            <div class="item-title">Артём Кузнецов</div>
+            <div class="item-sub">14:00 – 15:30 · Город</div>
+          </div>
+          <button class="btn-action-pill" onclick="event.stopPropagation(); showScreen('screen-report');">Начать</button>
+          <span class="arrow-icon">›</span>
+        </div>
+
+        <div class="lesson-item" onclick="showScreen('screen-profile')">
+          <div class="avatar-circle av4">ЕС</div>
+          <div class="item-body">
+            <div class="item-title">Елена Смирнова</div>
+            <div class="item-sub">16:00 – 17:30 · Площадка</div>
+          </div>
+          <button class="btn-action-pill" onclick="event.stopPropagation(); showScreen('screen-report');">Начать</button>
+          <span class="arrow-icon">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: STUDENT PROFILE -->
+    <div id="screen-profile" class="app-screen">
+      <div style="margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <button onclick="showScreen('screen-home')" style="border:none; background:transparent; color:var(--blue); font-weight:700; font-size:15px; cursor:pointer;">‹ Назад</button>
+        <h2 style="font-size:18px; font-weight:800;">Профиль ученика</h2>
+      </div>
+
+      <div class="profile-hero">
+        <div class="avatar-circle av2 av-large">МС</div>
+        <div>
+          <h2>Мария Сидорова</h2>
+          <p>+7 999 123-45-67</p>
+        </div>
+      </div>
+
+      <div class="segmented-tabs">
+        <button class="seg-tab active">Обзор</button>
+        <button class="seg-tab">Занятия</button>
+        <button class="seg-tab">Флаги</button>
+        <button class="seg-tab">Заключения</button>
+      </div>
+
+      <div class="score-card">
+        <div class="score-head-title">Driving Profile Score</div>
+        <div class="score-ring-row">
+          <div class="circle-ring">
+            <strong>78</strong>
+            <span>из 100</span>
+          </div>
+          <div class="score-delta-col">
+            <div class="delta-val">↑ +6</div>
+            <div class="delta-sub">за последние 3 занятия</div>
+          </div>
+        </div>
+
+        <div class="score-pills-row">
+          <div class="score-pill ground">
+            <strong>82</strong>
+            <span>Площадка</span>
+          </div>
+          <div class="score-pill city">
+            <strong>75</strong>
+            <span>Город</span>
+          </div>
+          <div class="score-pill overall">
+            <strong>76</strong>
+            <span>Готовность</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-action-pill" style="width:100%; height:48px; font-size:15px;" onclick="showScreen('screen-report')">Оценить занятие</button>
+    </div>
+
+    <!-- SCREEN 3: REPORT EVALUATION -->
+    <div id="screen-report" class="app-screen">
+      <div style="margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <button onclick="showScreen('screen-home')" style="border:none; background:transparent; color:var(--blue); font-weight:700; font-size:15px; cursor:pointer;">‹ Отмена</button>
+        <h2 style="font-size:18px; font-weight:800;">Оценка занятия</h2>
+      </div>
+
+      <div class="eval-box">
+        <h3>Оцените навыки</h3>
+
+        <div class="skill-row">
+          <div class="skill-title">Управление автомобилем</div>
+          <div class="pills-5">
+            <button class="rate-btn">1</button>
+            <button class="rate-btn">2</button>
+            <button class="rate-btn">3</button>
+            <button class="rate-btn selected">4</button>
+            <button class="rate-btn">5</button>
+          </div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-title">Соблюдение ПДД</div>
+          <div class="pills-5">
+            <button class="rate-btn">1</button>
+            <button class="rate-btn">2</button>
+            <button class="rate-btn">3</button>
+            <button class="rate-btn">4</button>
+            <button class="rate-btn selected">5</button>
+          </div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-title">Ориентация в потоке</div>
+          <div class="pills-5">
+            <button class="rate-btn">1</button>
+            <button class="rate-btn">2</button>
+            <button class="rate-btn">3</button>
+            <button class="rate-btn selected">4</button>
+            <button class="rate-btn">5</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="eval-box">
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="warn-icon">⚠️</div>
+            <div>
+              <div style="font-size:14px; font-weight:700;">Критические события</div>
+              <div style="font-size:12px; color:var(--text-muted);">ДТП, грубые нарушения</div>
+            </div>
+          </div>
+          <input type="checkbox" style="width:24px; height:24px; accent-color:var(--red);">
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <button class="btn-action-pill" style="flex:1; background:#E2E8F0; color:#0F172A;" onclick="showScreen('screen-home')">Черновик</button>
+        <button class="btn-action-pill" style="flex:1.6;" onclick="alert('Отчёт успешно сохранён!'); showScreen('screen-home');">Завершить отчёт</button>
+      </div>
+    </div>
+
+    <!-- SCREEN 4: FLAGS -->
+    <div id="screen-flags" class="app-screen">
+      <div style="margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <button onclick="showScreen('screen-home')" style="border:none; background:transparent; color:var(--blue); font-weight:700; font-size:15px; cursor:pointer;">‹ Назад</button>
+        <h2 style="font-size:18px; font-weight:800;">Флаги внимания</h2>
+      </div>
+
+      <div class="card-list">
+        <div class="lesson-item" onclick="showScreen('screen-profile')">
+          <div class="avatar-circle">ИП</div>
+          <div class="item-body">
+            <div class="item-title">Иван Петров</div>
+            <div style="color:var(--red); font-weight:650; font-size:12px; margin-top:3px;">⚠️ 3 занятия с оценкой ≤ 1</div>
+          </div>
+          <span class="arrow-icon">›</span>
+        </div>
+
+        <div class="lesson-item" onclick="showScreen('screen-profile')">
+          <div class="avatar-circle av4">ЕС</div>
+          <div class="item-body">
+            <div class="item-title">Елена Смирнова</div>
+            <div style="color:var(--amber); font-weight:650; font-size:12px; margin-top:3px;">⚠️ 2 критических события</div>
+          </div>
+          <span class="arrow-icon">›</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Dock -->
+    <nav class="dock-bar">
+      <button class="dock-btn active" onclick="showScreen('screen-home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span>Главная</span>
+      </button>
+
+      <button class="dock-btn" onclick="showScreen('screen-profile')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <span>Ученики</span>
+      </button>
+
+      <button class="dock-btn center-action" onclick="showScreen('screen-report')">
+        <div class="center-circle">+</div>
+      </button>
+
+      <button class="dock-btn" onclick="showScreen('screen-flags')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        <span>Отчёты</span>
+      </button>
+
+      <button class="dock-btn" onclick="alert('Профиль инструктора Алексея Иванова')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+        <span>Профиль</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    function showScreen(id) {
+      document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
+    }
+
+    // Toggle rating pills
+    document.querySelectorAll('.pills-5').forEach(group => {
+      group.querySelectorAll('.rate-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          group.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

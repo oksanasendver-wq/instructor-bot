@@ -1,0 +1,26 @@
+{
+  "name": "instructor-workspace",
+  "private": true,
+  "workspaces": [
+    "frontend-miniapp",
+    "frontend-admin"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "build:miniapp": "npm run build --workspace instructor-miniapp",
+    "build:admin": "npm run build --workspace instructor-admin",
+    "test:ui": "node --test shared/scoreTrend.test.mjs",
+    "format": "prettier --write shared frontend-miniapp/src frontend-admin/src",
+    "format:check": "prettier --check shared frontend-miniapp/src frontend-admin/src"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "prettier": "^3.6.0"
+  },
+  "dependencies": {
+    "lucide-react": "^1.41.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

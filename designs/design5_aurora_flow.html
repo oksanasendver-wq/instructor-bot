@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Концепт 5: Dynamic Aurora Flow | Instructor TMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --aurora-gradient: linear-gradient(145deg, #4F46E5 0%, #7C3AED 50%, #EC4899 100%);
+      --bg: #0F172A;
+      --card-glass: rgba(255, 255, 255, 0.94);
+      --card-glass-dark: rgba(30, 41, 59, 0.7);
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --pink: #EC4899;
+      --violet: #8B5CF6;
+      --indigo: #6366F1;
+      --emerald: #10B981;
+      --amber: #F59E0B;
+      --shadow-aurora: 0 14px 34px -4px rgba(124, 58, 237, 0.35);
+      --radius-organic: 26px;
+      --font-main: 'Outfit', -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: var(--font-main);
+      background: #090D16;
+      color: #FFF;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .concept-banner {
+      width: 100%;
+      max-width: 430px;
+      background: var(--aurora-gradient);
+      color: #FFF;
+      padding: 10px 16px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
+    }
+    .concept-banner a { color: #FFF; text-decoration: underline; font-weight: 800; }
+    .concept-title-pill { background: rgba(255, 255, 255, 0.25); padding: 3px 8px; border-radius: 6px; font-weight: 800; }
+
+    .phone-frame {
+      width: 100%;
+      max-width: 420px;
+      min-height: 844px;
+      background: #F1F4F9;
+      border-radius: 44px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 10px #1E293B;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-main);
+    }
+
+    .notch {
+      width: 120px;
+      height: 30px;
+      background: #0F172A;
+      border-radius: 20px;
+      margin: 10px auto 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #64748B;
+    }
+
+    .app-screen {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 18px 90px;
+      display: none;
+    }
+    .app-screen.active { display: block; animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+
+    /* Aurora Hero Card */
+    .aurora-hero {
+      background: var(--aurora-gradient);
+      border-radius: var(--radius-organic);
+      padding: 24px 20px;
+      color: #FFF;
+      box-shadow: var(--shadow-aurora);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .aurora-hero h1 {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+    .aurora-hero p {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .aurora-stat-bubbles {
+      display: flex;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .stat-bubble {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 10px 8px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .stat-bubble strong { font-size: 22px; font-weight: 900; display: block; line-height: 1; }
+    .stat-bubble span { font-size: 10px; font-weight: 600; opacity: 0.9; text-transform: uppercase; margin-top: 4px; display: block; }
+
+    /* Aurora Lesson Card */
+    .aurora-lesson-card {
+      background: var(--card-glass);
+      border-radius: var(--radius-organic);
+      padding: 16px 18px;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      transition: transform 0.15s ease;
+    }
+    .aurora-lesson-card:active { transform: scale(0.97); }
+
+    .aurora-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--aurora-gradient);
+      color: #FFF;
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+      font-weight: 800;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+    }
+    .aurora-avatar.alt1 { background: linear-gradient(135deg, #EC4899, #F59E0B); }
+    .aurora-avatar.alt2 { background: linear-gradient(135deg, #10B981, #3B82F6); }
+
+    .aurora-card-info { flex: 1; }
+    .aurora-card-name { font-size: 16px; font-weight: 800; color: var(--text-main); }
+    .aurora-card-sub { font-size: 13px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+
+    .aurora-btn-pill {
+      background: var(--aurora-gradient);
+      color: #FFF;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+    }
+
+    /* Screen 2: Aurora Student Score */
+    .aurora-score-hero {
+      background: #FFF;
+      border-radius: var(--radius-organic);
+      padding: 24px 20px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .aurora-ring-box {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(#EC4899 0%, #7C3AED 60%, #4F46E5 78%, #E2E8F0 78%);
+      padding: 10px;
+      margin: 12px auto;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.25);
+    }
+    .aurora-ring-inner {
+      width: 100%;
+      height: 100%;
+      background: #FFF;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+    }
+    .aurora-ring-inner strong { font-size: 34px; font-weight: 900; line-height: 1; color: var(--indigo); }
+    .aurora-ring-inner span { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+
+    .aurora-pills-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .aurora-metric-pill {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 18px;
+      padding: 12px 6px;
+    }
+    .aurora-metric-pill strong { font-size: 18px; font-weight: 800; display: block; }
+    .aurora-metric-pill span { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+
+    /* Bottom Aurora Floating Dock */
+    .aurora-dock {
+      position: absolute;
+      bottom: 16px;
+      left: 18px;
+      right: 18px;
+      height: 68px;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(24px);
+      border-radius: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 14px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      z-index: 100;
+    }
+    .aurora-tab {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: #94A3B8;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .aurora-tab.active { color: #FFF; }
+    .aurora-tab.active svg { stroke: #EC4899; filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.6)); }
+
+    .aurora-center-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--aurora-gradient);
+      color: #FFF;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      font-weight: 800;
+      box-shadow: var(--shadow-aurora);
+      transform: translateY(-12px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="concept-banner">
+    <div>
+      <span class="concept-title-pill">КОНЦЕПТ 5</span>
+      <strong>Dynamic Aurora Flow</strong> (Sunset Mesh & High-Energy)
+    </div>
+    <div>
+      <a href="index.html">Все 5 концептов ➔</a>
+    </div>
+  </div>
+
+  <div class="phone-frame">
+    <div class="notch">AURORA TMA</div>
+    <div class="status-bar">
+      <span>ИНСТРУКТОР</span>
+      <span>9:41</span>
+    </div>
+
+    <!-- Screen 1: Aurora Feed -->
+    <div id="screen-aurora-home" class="app-screen active">
+      <div class="aurora-hero">
+        <h1>Энергичного дня,<br>Алексей! ✨</h1>
+        <p>Расписание на 12 ноября сформировано</p>
+
+        <div class="aurora-stat-bubbles">
+          <div class="stat-bubble">
+            <strong>5</strong>
+            <span>Занятий</span>
+          </div>
+          <div class="stat-bubble" onclick="showScreen('screen-aurora-flags')" style="cursor:pointer;">
+            <strong style="color:#FFD1D9;">2</strong>
+            <span>Риски</span>
+          </div>
+          <div class="stat-bubble" onclick="showScreen('screen-aurora-student')" style="cursor:pointer;">
+            <strong>12</strong>
+            <span>Учеников</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size:18px; font-weight:900;">Ближайшие сессии</h2>
+        <span style="color:var(--pink); font-size:13px; font-weight:800; cursor:pointer;">Смотреть все</span>
+      </div>
+
+      <div class="aurora-lesson-card" onclick="showScreen('screen-aurora-student')">
+        <div class="aurora-avatar">ИП</div>
+        <div class="aurora-card-info">
+          <div class="aurora-card-name">Иван Петров</div>
+          <div class="aurora-card-sub">10:00 – 11:30 · Площадка</div>
+        </div>
+        <button class="aurora-btn-pill" onclick="event.stopPropagation(); showScreen('screen-aurora-report');">Начать</button>
+      </div>
+
+      <div class="aurora-lesson-card" onclick="showScreen('screen-aurora-student')">
+        <div class="aurora-avatar alt1">МС</div>
+        <div class="aurora-card-info">
+          <div class="aurora-card-name">Мария Сидорова</div>
+          <div class="aurora-card-sub">12:00 – 13:30 · Город</div>
+        </div>
+        <button class="aurora-btn-pill" onclick="event.stopPropagation(); showScreen('screen-aurora-report');">Начать</button>
+      </div>
+
+      <div class="aurora-lesson-card" onclick="showScreen('screen-aurora-student')">
+        <div class="aurora-avatar alt2">АК</div>
+        <div class="aurora-card-info">
+          <div class="aurora-card-name">Артём Кузнецов</div>
+          <div class="aurora-card-sub">14:00 – 15:30 · Город</div>
+        </div>
+        <button class="aurora-btn-pill" onclick="event.stopPropagation(); showScreen('screen-aurora-report');">Начать</button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Student Score Aurora -->
+    <div id="screen-aurora-student" class="app-screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <button onclick="showScreen('screen-aurora-home')" style="border:none; background:transparent; font-weight:800; color:var(--violet); font-size:15px; cursor:pointer;">‹ Назад</button>
+        <span style="font-size:14px; font-weight:800;">ПРОФИЛЬ УЧЕНИКА</span>
+      </div>
+
+      <div class="aurora-score-hero">
+        <div class="aurora-avatar alt1" style="width:64px; height:64px; font-size:22px; margin:0 auto 10px;">МС</div>
+        <h2 style="font-size:22px; font-weight:900;">Мария Сидорова</h2>
+        <p style="color:var(--text-muted); font-size:13px;">+7 999 123-45-67</p>
+
+        <div class="aurora-ring-box">
+          <div class="aurora-ring-inner">
+            <div>
+              <strong>78</strong>
+              <div>из 100</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="color:var(--emerald); font-weight:800; font-size:15px;">
+          ▲ +6 пунктов за 3 занятия
+        </div>
+
+        <div class="aurora-pills-row">
+          <div class="aurora-metric-pill">
+            <strong style="color:var(--amber);">82</strong>
+            <span>Площадка</span>
+          </div>
+          <div class="aurora-metric-pill">
+            <strong style="color:var(--pink);">75</strong>
+            <span>Город</span>
+          </div>
+          <div class="aurora-metric-pill">
+            <strong style="color:var(--emerald);">76</strong>
+            <span>Готовность</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="aurora-btn-pill" style="width:100%; height:50px; font-size:15px; border-radius:20px;" onclick="showScreen('screen-aurora-report')">Оценить занятие</button>
+    </div>
+
+    <!-- Screen 3: Aurora Report -->
+    <div id="screen-aurora-report" class="app-screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <button onclick="showScreen('screen-aurora-home')" style="border:none; background:transparent; font-weight:800; color:var(--pink); font-size:15px; cursor:pointer;">‹ Отмена</button>
+        <span style="font-size:14px; font-weight:800;">ИТОГИ ПРАКТИКИ</span>
+      </div>
+
+      <div class="aurora-score-hero" style="text-align:left;">
+        <h3 style="font-size:17px; margin-bottom:12px;">Оцените навыки вождения</h3>
+
+        <div style="margin-bottom:12px;">
+          <div style="font-size:13px; font-weight:700; margin-bottom:6px;">Управление автомобилем</div>
+          <div style="display:flex; gap:6px;">
+            <button class="aurora-btn-pill" style="flex:1; background:#F1F5F9; color:#0F172A; box-shadow:none;">1</button>
+            <button class="aurora-btn-pill" style="flex:1; background:#F1F5F9; color:#0F172A; box-shadow:none;">2</button>
+            <button class="aurora-btn-pill" style="flex:1; background:#F1F5F9; color:#0F172A; box-shadow:none;">3</button>
+            <button class="aurora-btn-pill" style="flex:1;">4</button>
+            <button class="aurora-btn-pill" style="flex:1; background:#F1F5F9; color:#0F172A; box-shadow:none;">5</button>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:13px; font-weight:700; margin-bottom:6px;">Соблюдение ПДД</div>
+          <div style="display:flex; gap:6px;">
+            <button class="aurora-btn-pill" style="flex:1; background:#F1F5F9; color:#0F172A; box-shadow:none;">1</button>
+            <button class="aurora-btn-pill" style="flex:1; background:#F1F5F9; color:#0F172A; box-shadow:none;">2</button>
+            <button class="aurora-btn-pill" style="flex:1; background:#F1F5F9; color:#0F172A; box-shadow:none;">3</button>
+            <button class="aurora-btn-pill" style="flex:1; background:#F1F5F9; color:#0F172A; box-shadow:none;">4</button>
+            <button class="aurora-btn-pill" style="flex:1;">5</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="aurora-btn-pill" style="width:100%; height:50px; font-size:15px; border-radius:20px;" onclick="alert('Отчёт успешно сохранён!'); showScreen('screen-aurora-home');">Завершить занятие</button>
+    </div>
+
+    <!-- Screen 4: Aurora Flags -->
+    <div id="screen-aurora-flags" class="app-screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <button onclick="showScreen('screen-aurora-home')" style="border:none; background:transparent; font-weight:800; color:var(--pink); font-size:15px; cursor:pointer;">‹ Назад</button>
+        <span style="font-size:14px; font-weight:800;">ФЛАГИ ВНИМАНИЯ</span>
+      </div>
+
+      <div class="aurora-lesson-card" style="border-color:#FCA5A5; background:#FFF5F5;" onclick="showScreen('screen-aurora-student')">
+        <div class="aurora-avatar" style="background:#EF4444;">!</div>
+        <div class="aurora-card-info">
+          <div class="aurora-card-name" style="color:#DC2626;">Иван Петров</div>
+          <div class="aurora-card-sub">3 занятия с оценкой ≤ 1 подряд</div>
+        </div>
+      </div>
+
+      <div class="aurora-lesson-card" style="border-color:#FDE68A; background:#FFFBEB;" onclick="showScreen('screen-aurora-student')">
+        <div class="aurora-avatar" style="background:#F59E0B;">!</div>
+        <div class="aurora-card-info">
+          <div class="aurora-card-name" style="color:#D97706;">Елена Смирнова</div>
+          <div class="aurora-card-sub">2 критических события с вмешательством</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Aurora Floating Dock -->
+    <nav class="aurora-dock">
+      <button class="aurora-tab active" onclick="showScreen('screen-aurora-home')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span>Главная</span>
+      </button>
+
+      <button class="aurora-tab" onclick="showScreen('screen-aurora-student')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <span>Ученики</span>
+      </button>
+
+      <button class="aurora-center-btn" onclick="showScreen('screen-aurora-report')">+</button>
+
+      <button class="aurora-tab" onclick="showScreen('screen-aurora-flags')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        <span>Риски</span>
+      </button>
+
+      <button class="aurora-tab" onclick="alert('Профиль инструктора')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+        <span>Профиль</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    function showScreen(id) {
+      document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
+    }
+  </script>
+</body>
+</html>

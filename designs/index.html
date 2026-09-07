@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Галерея 5 дизайн-концептов | Telegram Mini App для Инструктора</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Golos Text', -apple-system, sans-serif;
+      background: #0F172A;
+      color: #F8FAFC;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation Switcher */
+    header {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo-area h1 {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38BDF8, #818CF8, #C084FC);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .logo-area p {
+      font-size: 13px;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+
+    /* Concept Selector Buttons */
+    .tabs-bar {
+      display: flex;
+      gap: 8px;
+      background: rgba(30, 41, 59, 0.8);
+      padding: 4px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow-x: auto;
+    }
+    .tab-btn {
+      border: none;
+      background: transparent;
+      color: #94A3B8;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { color: #FFF; }
+    .tab-btn.active {
+      background: #38BDF8;
+      color: #0F172A;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+    }
+
+    /* Main Showcase Area */
+    main {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    @media (max-width: 1000px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    /* Live Phone Iframe Container */
+    .phone-preview-wrapper {
+      position: sticky;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .phone-container {
+      width: 420px;
+      height: 844px;
+      border-radius: 46px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 0 10px #1E293B;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .phone-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Concept Description Dossier */
+    .concept-dossier {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .dossier-card {
+      background: #1E293B;
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    .dossier-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .dossier-card h2 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .dossier-card p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #CBD5E1;
+    }
+
+    .features-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .feature-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .feature-item strong { display: block; font-size: 14px; margin-bottom: 4px; color: #38BDF8; }
+    .feature-item span { font-size: 13px; color: #94A3B8; }
+
+    /* Open in new tab button */
+    .open-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #38BDF8, #2563EB);
+      color: #FFF;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 750;
+      font-size: 14px;
+      text-decoration: none;
+      width: fit-content;
+      margin-top: 20px;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+    }
+
+    /* All 5 Cards Grid */
+    .all-concepts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .concept-thumb {
+      background: #1E293B;
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .concept-thumb:hover {
+      border-color: #38BDF8;
+      transform: translateY(-4px);
+    }
+    .concept-thumb h4 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .concept-thumb span { font-size: 12px; color: #94A3B8; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <div class="logo-area">
+        <h1>5 ДИЗАЙН-КОНЦЕПТОВ ДЛЯ INSTRUCTOR MINI APP</h1>
+        <p>Выберите наиболее подходящий вариант архитектуры и визуального стиля</p>
+      </div>
+
+      <nav class="tabs-bar">
+        <button class="tab-btn active" onclick="loadConcept(1, this)">1. Cupertino Neo-Glass</button>
+        <button class="tab-btn" onclick="loadConcept(2, this)">2. Obsidian Cockpit</button>
+        <button class="tab-btn" onclick="loadConcept(3, this)">3. Swiss Editorial</button>
+        <button class="tab-btn" onclick="loadConcept(4, this)">4. Bento Modern</button>
+        <button class="tab-btn" onclick="loadConcept(5, this)">5. Aurora Flow</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Live Mobile Interactive Device Frame -->
+    <div class="phone-preview-wrapper">
+      <div class="phone-container">
+        <iframe id="preview-iframe" src="design1_cupertino_glass.html" title="Interactive Prototype Preview"></iframe>
+      </div>
+      <p style="font-size:12px; color:#64748B; margin-top:12px;">Прототип полностью интерактивен: нажимайте на кнопки, карточки и табы</p>
+    </div>
+
+    <!-- Description & Philosophy -->
+    <div class="concept-dossier">
+      <div class="dossier-card" id="dossier-content">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div class="dossier-card">
+        <h2>Сравнение всех 5 направлений</h2>
+        <div class="all-concepts-grid">
+          <div class="concept-thumb" onclick="loadConcept(1, document.querySelectorAll('.tab-btn')[0])">
+            <span style="color:#38BDF8; font-weight:800; font-size:11px;">КОНЦЕПТ 1</span>
+            <h4>Cupertino Neo-Glass</h4>
+            <span>Чистый стиль iOS 18, белые карточки, сапфировый синий `#007AFF`, нативный док.</span>
+          </div>
+
+          <div class="concept-thumb" onclick="loadConcept(2, document.querySelectorAll('.tab-btn')[1])">
+            <span style="color:#00F2FE; font-weight:800; font-size:11px;">КОНЦЕПТ 2</span>
+            <h4>Obsidian Cockpit</h4>
+            <span>Темный люкс, неоновый циан `#00F2FE`, лазерный изумруд, HUD-панель спорткара.</span>
+          </div>
+
+          <div class="concept-thumb" onclick="loadConcept(3, document.querySelectorAll('.tab-btn')[2])">
+            <span style="color:#FF5A1F; font-weight:800; font-size:11px;">КОНЦЕПТ 3</span>
+            <h4>Swiss Editorial</h4>
+            <span>Теплый алебастр, швейцарская типографика, International Klein Blue, таймлайн.</span>
+          </div>
+
+          <div class="concept-thumb" onclick="loadConcept(4, document.querySelectorAll('.tab-btn')[3])">
+            <span style="color:#818CF8; font-weight:800; font-size:11px;">КОНЦЕПТ 4</span>
+            <h4>Bento Modern</h4>
+            <span>Модульные бенто-виджеты, премиальный SaaS (Linear), мягкие пастельные тени.</span>
+          </div>
+
+          <div class="concept-thumb" onclick="loadConcept(5, document.querySelectorAll('.tab-btn')[4])">
+            <span style="color:#EC4899; font-weight:800; font-size:11px;">КОНЦЕПТ 5</span>
+            <h4>Aurora Flow</h4>
+            <span>Сочный закатный градиент (индиго + пурпур + корал), энергия, высокая динамика.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const concepts = {
+      1: {
+        file: 'design1_cupertino_glass.html',
+        badge: 'iOS 18 Native & Glassmorphism',
+        badgeColor: '#007AFF',
+        title: 'Концепт 1: Cupertino Neo-Glass',
+        desc: 'Максимально органичный для экосистемы Apple и Telegram Mini App стиль. Чистый светлый фарфор (#F0F3F8), белые карточки с мягким размытием (backdrop-filter), королевский синий (#007AFF), 5-кнопочный док с плавающей центральной кнопкой.',
+        features: [
+          { title: 'Цветовая палитра', desc: 'Фарфоровый фон, контрастный инк, акцентный Royal Electric Blue и цветные плашки показателей.' },
+          { title: 'Архитектура', desc: 'Сетка 3-в-ряд для статистики, полоса недели с выбором дня, сгруппированные карточки с аватарами.' },
+          { title: 'Навигация', desc: 'Классический iOS-док на 5 элементов с плавающим кругляшком быстрого действия (+).' }
+        ]
+      },
+      2: {
+        file: 'design2_obsidian_cockpit.html',
+        badge: 'Dark Luxury & Cockpit Telemetry',
+        badgeColor: '#00F2FE',
+        title: 'Концепт 2: Obsidian Cyber Cockpit',
+        desc: 'Глубокий обсидиановый темный режим премиум-класса. Стилистика цифровой телеметрии спорткара: неоновый циан (#00F2FE), лазерный изумруд (#10B981) и тревожный рубин (#FF3366). Для тех, кто ценит футуризм, контраст и работу в темное время.',
+        features: [
+          { title: 'Цветовая палитра', desc: 'Глубокий карбоновый фон (#0A0D14), светящиеся неоновые окантовки и акцентный Cyber Cyan.' },
+          { title: 'Архитектура', desc: 'Командный центр: HUD-плашки, индикатор живой сессии LIVE, круговой спидометр-гейдж Driving Score.' },
+          { title: 'Навигация', desc: 'Нижний кибер-док с неоновыми пиктограммами и неоновым центром.' }
+        ]
+      },
+      3: {
+        file: 'design3_swiss_editorial.html',
+        badge: 'Swiss Neo-Brutalist & Minimal',
+        badgeColor: '#FF5A1F',
+        title: 'Концепт 3: Swiss Editorial Studio',
+        desc: 'Изысканный минимализм швейцарской типографики и архитектурных журналов. Теплый алебастровый фон (#F8F6F0), контрастный ультрачерный текст, синий Klein Blue (#1648FF) и мандариновый акцент Safety Tangerine (#FF5A1F).',
+        features: [
+          { title: 'Цветовая палитра', desc: 'Теплая бумага (#F8F6F0), глубокий инк (#0D0E12), Klein Blue и яркий Tangerine.' },
+          { title: 'Архитектура', desc: 'Вертикальный хронологический таймлайн с соединительными линиями сессий и досье ученика.' },
+          { title: 'Навигация', desc: 'Геометрический минималистичный док со строгими типографическими акцентами.' }
+        ]
+      },
+      4: {
+        file: 'design4_bento_modern.html',
+        badge: 'Modular Bento Grid & SaaS',
+        badgeColor: '#6366F1',
+        title: 'Концепт 4: Bento Modern Grid',
+        desc: 'Современный модульный бенто-дизайн в духе Linear, Stripe и Apple Keynote. Модули разного размера (виджет фокуса дня, компактные счетчики рисков, карточки учеников), скругления 24px, мягкие диффузные тени.',
+        features: [
+          { title: 'Цветовая палитра', desc: 'Светлый графит (#F4F6FB), карточки Pure White, индиго (#4F46E5), шалфей (#0D9488) и коралл.' },
+          { title: 'Архитектура', desc: 'Бенто-модули: главный виджет текущей задачи + плитки рисков и учеников в сетку.' },
+          { title: 'Навигация', desc: 'Плавающая капсула (Floating Pill Dock) с анимированным активным переключателем.' }
+        ]
+      },
+      5: {
+        file: 'design5_aurora_flow.html',
+        badge: 'Vibrant Mesh & High Energy',
+        badgeColor: '#EC4899',
+        title: 'Концепт 5: Dynamic Aurora Flow',
+        desc: 'Яркий, эмоциональный и динамичный интерфейс с закатным меш-градиентом (индиго + глубокий фиолетовый + неоновый коралл #EC4899). Органические плавные формы карточек (26px), геймифицированные кольца и максимальное ощущение скорости.',
+        features: [
+          { title: 'Цветовая палитра', desc: 'Закатный градиент Aurora, глубокий темно-синий док, яркие эмоциональные акценты.' },
+          { title: 'Архитектура', desc: 'Герой-баннер с пузырями статистики, округлые карточки занятий, круговые кольца достижений.' },
+          { title: 'Навигация', desc: 'Контрастный темный плавающий док с подсвеченной розовой центральной кнопкой (+).' }
+        ]
+      }
+    };
+
+    function loadConcept(num, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const data = concepts[num];
+      document.getElementById('preview-iframe').src = data.file;
+
+      const dossier = document.getElementById('dossier-content');
+      dossier.innerHTML = `
+        <span class="dossier-badge" style="background:${data.badgeColor}22; color:${data.badgeColor}; border:1px solid ${data.badgeColor}44;">${data.badge}</span>
+        <h2>${data.title}</h2>
+        <p>${data.desc}</p>
+
+        <div class="features-list">
+          ${data.features.map(f => `
+            <div class="feature-item">
+              <strong style="color:${data.badgeColor}">${f.title}</strong>
+              <span>${f.desc}</span>
+            </div>
+          `).join('')}
+        </div>
+
+        <a href="${data.file}" target="_blank" class="open-btn" style="background:${data.badgeColor}">
+          Открыть ${data.title} во весь экран ↗
+        </a>
+      `;
+    }
+
+    // Initialize with Concept 1
+    loadConcept(1, document.querySelectorAll('.tab-btn')[0]);
+  </script>
+</body>
+</html>

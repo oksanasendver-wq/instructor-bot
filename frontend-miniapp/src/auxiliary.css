@@ -1,0 +1,168 @@
+.aux-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.aux-card h2 {
+  font-size: 17px;
+  line-height: 1.4;
+  margin: 0;
+}
+.aux-card p {
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0;
+}
+.aux-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.aux-menu-button {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: transparent;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  cursor: pointer;
+}
+.aux-facts {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  font-size: 13px;
+}
+.aux-facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+.aux-facts dt {
+  color: var(--muted);
+  flex: 1;
+}
+.aux-facts dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 600;
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.aux-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.aux-stat-card {
+  background: var(--surface);
+  padding: 20px 16px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  display: grid;
+  gap: 8px;
+}
+.aux-stat-card strong {
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+.aux-stat-card span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.aux-clock-card {
+  text-align: center;
+  justify-items: center;
+  padding: 28px 20px;
+}
+.aux-clock {
+  font-size: clamp(32px, 10vw, 46px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1.5px;
+}
+.aux-link-button {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.aux-history-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: -4px 0 16px;
+  gap: 4px;
+}
+.aux-person-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+.aux-person-link > div {
+  flex: 1;
+  min-width: 0;
+}
+.aux-report-note {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.aux-skill-list {
+  display: grid;
+  gap: 0;
+}
+.aux-skill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding: 12px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.aux-skill-row strong {
+  white-space: nowrap;
+}
+.aux-exercises {
+  display: grid;
+  gap: 10px;
+  padding-left: 18px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.aux-event {
+  display: grid;
+  gap: 8px;
+}
+.aux-event strong {
+  font-size: 13px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.aux-event-critical {
+  border-left: 3px solid var(--red, #dc2626);
+  padding-left: 12px;
+}
+.report-section-box > .aux-note {
+  margin-bottom: 12px;
+}
+.critical-toggle-row {
+  margin-top: 16px;
+}
+.history-lesson-row {
+  color: inherit;
+  text-decoration: none;
+}

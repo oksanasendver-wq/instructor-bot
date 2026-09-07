@@ -1,0 +1,124 @@
+.score-trend-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+}
+.score-trend-controls label {
+  flex: 1 1 120px;
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  min-width: 0;
+}
+.score-trend-controls select {
+  width: 100%;
+  min-width: 0;
+  color: var(--ink);
+}
+.score-trend-message {
+  padding: 24px 0 8px;
+  line-height: 1.7;
+  font-size: 13px;
+}
+.score-trend-message p + p {
+  margin-top: 10px;
+}
+.score-trend-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 12px;
+}
+.score-trend-summary {
+  margin-top: 14px;
+  line-height: 1.6;
+}
+.score-trend-table {
+  margin-top: 14px;
+  font-size: 12px;
+}
+.score-trend-table summary {
+  cursor: pointer;
+  padding: 8px 0;
+}
+.score-trend-table table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.score-trend-table th,
+.score-trend-table td {
+  padding: 10px 4px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+.score-trend-table small {
+  display: block;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.profile-score-status {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+.profile-history-link {
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+  text-align: left;
+}
+.profile-history-link .history-lesson-title {
+  white-space: normal;
+}
+.profile-history-link .history-score-badge {
+  white-space: nowrap;
+}
+.profile-skill-context {
+  margin-top: 18px;
+}
+.profile-skill-context:first-child {
+  margin-top: 0;
+}
+.profile-skill-row {
+  display: grid;
+  gap: 7px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.profile-skill-row .row {
+  align-items: flex-start;
+}
+.profile-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.profile-facts > div {
+  flex: 1 1 80px;
+  display: grid;
+  gap: 6px;
+}
+.profile-facts strong {
+  font-size: 22px;
+}
+.profile-facts span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.profile-score-explanation {
+  margin-top: 16px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.profile-score-explanation summary {
+  cursor: pointer;
+}
+.profile-score-explanation p {
+  margin-top: 8px;
+}
